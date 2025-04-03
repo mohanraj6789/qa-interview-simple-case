@@ -1,0 +1,1 @@
+[{"uid":"9236a98d1dba9edd","name":"localStorage","time":{"start":1743681479532,"stop":1743681479535,"duration":3},"status":"passed","severity":"normal"},{"uid":"ac7173cc54016415","name":"To verify new user should be able to register and login successfully","time":{"start":1743681479545,"stop":1743681481976,"duration":2431},"status":"passed","severity":"normal"}]
