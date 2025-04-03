@@ -3,27 +3,22 @@ import { existingUsers } from '../../test-setup/localstorage.setup'
 
 test.describe.configure({ mode: 'serial' })
 
-test.describe('login form tests', () => {
-  test('logging in works with existing account', async ({ page }) => {
-    await page.goto('localhost:8080/login')
+test.describe('Login Form Tests', () => {
+  test('should successfully log in with valid credentials', async ({ page }) => {
+    const { email, password } = existingUsers[2];
 
-    const existingUser = existingUsers[0]
+    await page.goto('http://localhost:8080/login') // Launch the login url
 
-    await page
-      .locator('#root form div:nth-child(1) > div > input')
-      .pressSequentially(existingUser.email)
+    await expect(page.locator('h1').first()).toHaveText('Strawberry QA');
 
-    await page
-      .locator('#root form div:nth-child(2) > div > input')
-      .pressSequentially(existingUser.password)
+    await page.locator('#email').fill(email) 
+    await page.locator('#password').fill(password)
 
-    // Submit button
-    const button = page.locator('form .MuiButton-sizeMedium')
-    // Click on the button
-    button.click()
+    await page.getByRole('button', { name: /login/i }).click();
+    await page.waitForTimeout(2000)
 
-    // Wait for 1 second until page is fully loaded
-    await page.waitForTimeout(1000)
-    await expect(page.getByText('Log out')).toBeVisible()
+    const pageTitle = page.getByText('Company');
+    await expect(pageTitle).toBeVisible() //assertions for loggedin
+    await expect(pageTitle).toHaveText('Company');
   })
 })
